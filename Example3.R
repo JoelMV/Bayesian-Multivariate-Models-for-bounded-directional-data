@@ -1,3 +1,5 @@
+## ####
+
 library(armspp)
 library(TeachingDemos)
 library(tictoc)
@@ -68,7 +70,7 @@ dcggp<-function(x,y,A1,A2,B1,A3,A4,B2,R){
 dctgp<-function(x,y,A1,A2,B1,A3,A4,B2,V,R){
   dmvt(c(qt(pgammap2(x,A1,A2,B1),V),qt(pgammap2(y,A3,A4,B2),V)),sigma = matrix(c(1,R,R,1),ncol = 2),df=V,log = FALSE)*GammaP2(x,A1,A2,B1)*GammaP2(y,A3,A4,B2)/(dt(qt(pgammap2(x,A1,A2,B1),V),V)*dt(qt(pgammap2(y,A3,A4,B2),V),V))
 }
-
+## Principal Program ####
 #SubjectData <- read.csv("~/Downloads/SubjectData.csv")
 SubjectData <- read.csv("~/Library/CloudStorage/Dropbox/Escuela/Paper GammaP Multivariado/SubjectData.csv")
 
@@ -79,10 +81,11 @@ n<-length(theta1)
 plot(theta1,theta2,pch=16,col=rgb(1.0,0.0,0.0,0.9),xlab = 'LFA',ylab = 'RFA')
 
 ejex<-seq(0.001,pi/2-0.001,length=1000)
-set.seed(6)
+
+set.seed(1) # 1
 # INFERENCIA CON COPULA T ####
 
-a<-1; b<-0.05; cal<-100000; lag<-150; muestra<-1000; N=cal+lag*muestra
+a<-1; b<-0.05; cal<-250000; lag<-50; muestra<-1000; N=cal+lag*muestra
 
 pmt<-matrix(data = NA,ncol = 8,nrow = muestra)
 IntCt<-matrix(data = NA,ncol = 2,nrow = 8)
@@ -227,7 +230,7 @@ waic_ct<- -2*(lppd_ct-pwaic2_ct)
 # INFERENCIA CON COPULA GAUSSIANA ####
 
 a<-1; b<-0.05
-cal<-100000; lag<-150; muestra<-1000; N=cal+lag*muestra
+cal<-100000; lag<-50; muestra<-1000; N=cal+lag*muestra
 
 pmt<-matrix(data = NA,ncol = 7,nrow = muestra)
 IntCg<-matrix(data = NA,ncol = 2,nrow = 8)
@@ -287,9 +290,10 @@ for (i in 1:7) {
 
 ## Prediciivas marginales
 
-f_q1<-rep(0,length=length(ejex)); f_q2<-rep(0,length=length(ejex))
-g_q1<-rep(0,length=length(ejex)); g_q2<-rep(0,length=length(ejex))
+f_q1<-rep(0,length=length(ejex));f_q2<-rep(0,length=length(ejex));f_m<-rep(0,length=length(ejex))
+g_q1<-rep(0,length=length(ejex));g_q2<-rep(0,length=length(ejex));g_m<-rep(0,length=length(ejex))
 q1<-rep(NA,muestra); q2<-rep(NA,muestra)
+
 for (i in 1:length(ejex)) {
   for (l in 1:muestra) {
     q1[l]<-GammaP2(ejex[i],pmt[l,1] , pmt[l,2],pmt[l,3])
@@ -297,17 +301,46 @@ for (i in 1:length(ejex)) {
   }
   f_q1[i]<-quantile( q1,0.025 )
   f_q2[i]<-quantile( q1,0.975 )
+  f_m[i]<-quantile( q1,0.5 )
   g_q1[i]<-quantile( q2,0.025 )
   g_q2[i]<-quantile( q2,0.975 )
+  g_m[i]<-quantile( q2,0.5 )
 }
 
-hist(theta1,freq = FALSE,border = 'white',col = 'gray80',xlim = c(0,pi/2))#,ylim = c(0,6))
-lines(ejex,f_q1,col='blue',lwd=3)
-lines(ejex,f_q2,col='blue',lwd=3)
+hist(theta1,freq = FALSE,border = 'white',col = 'gray70',
+     xlim = c(0,pi/2),main='',xlab = expression(theta[1]))
+lines(ejex,f_q1,col='blue',lwd=2,lty=2)
+lines(ejex,f_q2,col='blue',lwd=2,lty=2)
+lines(ejex,f_m,col='red',lwd=2)
 
-hist(theta2,freq = FALSE,border = 'white',col = 'gray80',xlim = c(0,pi/2))#,ylim = c(0,8))
-lines(ejex,g_q1,col='blue',lwd=3)
-lines(ejex,g_q2,col='blue',lwd=3)
+hist(theta2,freq = FALSE,border = 'white',col = 'gray70',
+     xlim = c(0,pi/2),breaks = 7,main='',xlab = expression(theta[2]))
+lines(ejex,g_q1,col='blue',lwd=2,lty=2)
+lines(ejex,g_q2,col='blue',lwd=2,lty=2)
+lines(ejex,g_m,col='red',lwd=2)
+
+
+#f_q1<-rep(0,length=length(ejex)); f_q2<-rep(0,length=length(ejex))
+#g_q1<-rep(0,length=length(ejex)); g_q2<-rep(0,length=length(ejex))
+#q1<-rep(NA,muestra); q2<-rep(NA,muestra)
+#for (i in 1:length(ejex)) {
+#  for (l in 1:muestra) {
+#    q1[l]<-GammaP2(ejex[i],pmt[l,1] , pmt[l,2],pmt[l,3])
+#    q2[l]<-GammaP2(ejex[i],pmt[l,4] , pmt[l,5],pmt[l,6])
+#  }
+#  f_q1[i]<-quantile( q1,0.025 )
+#  f_q2[i]<-quantile( q1,0.975 )
+#  g_q1[i]<-quantile( q2,0.025 )
+#  g_q2[i]<-quantile( q2,0.975 )
+#}
+
+#hist(theta1,freq = FALSE,border = 'white',col = 'gray80',xlim = c(0,pi/2))#,ylim = c(0,6))
+#lines(ejex,f_q1,col='blue',lwd=3)
+#lines(ejex,f_q2,col='blue',lwd=3)
+
+#hist(theta2,freq = FALSE,border = 'white',col = 'gray80',xlim = c(0,pi/2))#,ylim = c(0,8))
+#lines(ejex,g_q1,col='blue',lwd=3)
+#lines(ejex,g_q2,col='blue',lwd=3)
 
 n.pred<-500
 ind.pred<-sample(1000,n.pred)
@@ -363,11 +396,11 @@ mean(tau.t)
 emp.hpd(tau.t)
 emp.hpd(tau.g)
 
-lpml.t #-59.44343
-lpml.g #-60.38426
+lpml.t #-59.633
+lpml.g #-60.3493
 
-waic_ct #-263.2641
-waic_cg #-261.4276
+waic_ct #-262.8532
+waic_cg #-261.5193
 
 # INTERVALOS
 
@@ -381,7 +414,7 @@ H2.ct <- Hpi.diag(x=df.predct)
 fhat1.ct <- kde(x=df.predct, H=H1.ct,compute.cont=T)
 fhat2.ct <- kde(x=df.predct, H=H2.ct)
 
-plot(fhat1.ct,xlab = 'LFA',ylab = 'RFA',main='CopT, H no diagonal',xlim = c(0.15,0.8),ylim = c(0.15,0.8),lwd=3,display="filled.contour",cont=c(10,50,75,95),drawlabels=F,col=c('white','gray90','gray70','gray45','gray25')) #points(df.predct)
+plot(fhat1.ct,xlab = 'LFA',ylab = 'RFA',main='CopT, H no diagonal',xlim = c(0.1,0.9),ylim = c(0.15,0.85),lwd=3,display="filled.contour",cont=c(10,50,75,95),drawlabels=F,col=c('white','gray90','gray70','gray45','gray25')) #points(df.predct)
 points(theta1,theta2,pch=16,col='red')
 
 plot(fhat2.ct,xlab = 'LFA',ylab = 'RFA',main='CopT, H diagonal',xlim = c(0.15,0.8),ylim = c(0.15,0.8),lwd=3,display="filled.contour",cont=c(10,50,75,95),drawlabels=F,col=c('white','gray90','gray70','gray45','gray25')) #points(df.predct)
@@ -393,7 +426,7 @@ H2.cg <- Hpi.diag(x=df.predcg)
 fhat1.cg <- kde(x=df.predcg, H=H1.cg)
 fhat2.cg <- kde(x=df.predcg, H=H2.cg)
 
-plot(fhat1.cg,xlab = 'LFA',ylab = 'RFA',main='CopG, H no diagonal',xlim = c(0.15,0.8),ylim = c(0.15,0.8),lwd=3,display="filled.contour",cont=c(10,50,75,95),drawlabels=F,col=c('white','gray90','gray70','gray45','gray25')) #points(df.predcg)
+plot(fhat1.cg,xlab = 'LFA',ylab = 'RFA',main='CopG, H no diagonal',xlim = c(0.1,0.9),ylim = c(0.15,0.85),lwd=3,display="filled.contour",cont=c(10,50,75,95),drawlabels=F,col=c('white','gray90','gray70','gray45','gray25')) #points(df.predcg)
 points(theta1,theta2,pch=16,col='red')
 
 plot(fhat2.cg,xlab = 'LFA',ylab = 'RFA',main='CopG, H diagonal',xlim = c(0.15,0.8),ylim = c(0.15,0.8),lwd=3,display="filled.contour",cont=c(10,50,75,95),drawlabels=F,col=c('white','gray90','gray70','gray45','gray25')) #points(df.predcg)

@@ -58,7 +58,7 @@ logver_rho<-function(p){
 
 gl<- 4; rho<- 0.7; alpha1<-2; alpha2<-2; beta1<-1; alpha3<-0.5; alpha4<-0.5; beta2<-1
 
-set.seed(7) #7 lag 170, cal 100k
+set.seed(7) # seed 7
 n=20;  U<-rcopT(n,rho,gl); U1<-U[,1]; U2<-U[,2]; 
 theta1<-qgammap2(U1,alpha1,alpha2,beta1); theta2<-qgammap2(U2,alpha3,alpha4,beta2)
 a<-1; b<-0.05; cal<-100000; lag<-170; muestra<-1000 ; N=cal+lag*muestra
@@ -286,6 +286,16 @@ for (i in 1:8) {
 }
 #Credibility Intervals for n=50
 #Int500
+
+hist(pmt[,1],xlab = expression(alpha[11]),col = 'red',main = '',border = 'white',freq = F,breaks = 8)
+hist(pmt[,2],xlab = expression(alpha[12]),col = 'red',main = '',border = 'white',freq = F,breaks = 8)
+hist(pmt[,3],xlab = expression(beta[1]),col = 'red',main = '',border = 'white',freq = F,breaks = 8)
+hist(pmt[,4],xlab = expression(alpha[21]),col = 'red',main = '',border = 'white',freq = F,breaks = 9) 
+hist(pmt[,5],xlab = expression(alpha[22]),col = 'red',main = '',border = 'white',freq = F,breaks = 8)
+hist(pmt[,6],xlab = expression(beta[2]),col = 'red',main = '',border = 'white',freq = F,breaks = 8)
+hist(pmt[,7],xlab = expression(nu),col = 'red',main = '',border = 'white',freq = F,breaks = 8)
+hist(pmt[,8],xlab = expression(rho[12]),col = 'red',main = '',border = 'white',freq = F,breaks = 8)
+
 
 ConfidenceIntervals<-cbind(Int20,Int50,Int100,Int500)
 

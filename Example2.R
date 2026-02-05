@@ -215,24 +215,24 @@ for (i in 1:12) {
   Intervalos.05[i,]<-round(emp.hpd(MuestraFinal[i,],0.95),digits = 2)
 }
 
-hist(MuestraFinal[1,],xlab = expression(alpha[11]),col = 'red',main = '')
-hist(MuestraFinal[2,],xlab = expression(alpha[12]),col = 'red',main = '')
-hist(MuestraFinal[3,],xlab = expression(beta[1]),col = 'red',main = '')
-hist(MuestraFinal[4,],xlab = expression(alpha[21]),col = 'red',main = '')
-hist(MuestraFinal[5,],xlab = expression(alpha[22]),col = 'red',main = '')
-hist(MuestraFinal[6,],xlab = expression(beta[2]),col = 'red',main = '')
-hist(MuestraFinal[7,],xlab = expression(alpha[31]),col = 'red',main = '')
-hist(MuestraFinal[8,],xlab = expression(alpha[32]),col = 'red',main = '')
-hist(MuestraFinal[9,],xlab = expression(beta[3]),col = 'red',main = '')
-hist(MuestraFinal[10,],xlab = expression(rho[12]),col = 'red',main = '')
-hist(MuestraFinal[11,],xlab = expression(rho[13]),col = 'red',main = '')
-hist(MuestraFinal[12,],xlab = expression(rho[23]),col = 'red',main = '')
+hist(MuestraFinal[1,],xlab = expression(alpha[11]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[2,],xlab = expression(alpha[12]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[3,],xlab = expression(beta[1]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[4,],xlab = expression(alpha[21]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[5,],xlab = expression(alpha[22]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[6,],xlab = expression(beta[2]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[7,],xlab = expression(alpha[31]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[8,],xlab = expression(alpha[32]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[9,],xlab = expression(beta[3]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[10,],xlab = expression(rho[12]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[11,],xlab = expression(rho[13]),col = 'red',main = '',border='white',freq=F,breaks = 10)
+hist(MuestraFinal[12,],xlab = expression(rho[23]),col = 'red',main = '',border='white',freq=F,breaks = 10)
 
-a<-1; b<-0.01;
-MuestraFinal<-matrix(data = NA,ncol = muestra,nrow = 12)
-Intervalos.01<-matrix(data = NA,ncol = 2,nrow = 12)
-j<-1
-for (i in 1:N) {
+#a<-1; b<-0.01;
+#MuestraFinal<-matrix(data = NA,ncol = muestra,nrow = 12)
+#Intervalos.01<-matrix(data = NA,ncol = 2,nrow = 12)
+#j<-1
+#for (i in 1:N) {
   r1<-rgamma(n,sum(alpha11_0+alpha12_0),cos(theta1)+beta1_0*sin(theta1) )
   r2<-rgamma(n,sum(alpha21_0+alpha22_0),cos(theta2)+beta2_0*sin(theta2) )
   r3<-rgamma(n,sum(alpha31_0+alpha32_0),cos(theta3)+beta3_0*sin(theta3) )
@@ -263,9 +263,9 @@ for (i in 1:N) {
     j<-j+1
   }
 }
-nu0<-4
-Sigma0<-diag(0.0001,nrow = 3)
-for (k in 1:muestra) {
+#nu0<-4
+#Sigma0<-diag(0.0001,nrow = 3)
+#for (k in 1:muestra) {
   alpha11_0<-MuestraFinal[1,k]
   alpha12_0<-MuestraFinal[2,k]
   beta1_0  <-MuestraFinal[3,k]
@@ -293,8 +293,8 @@ for (k in 1:muestra) {
   MuestraFinal[11,k]<-R.posterior[1,3]
   MuestraFinal[12,k]<-R.posterior[2,3]
 }
-for (i in 1:12) {
+#for (i in 1:12) {
   Intervalos.01[i,]<-round(emp.hpd(MuestraFinal[i,],0.95),digits = 2)
 }
 
-Intervalos<-cbind(c(alpha11,alpha12,beta1,alpha21,alpha22,beta2,alpha31,alpha32,beta3,rho12,rho13,rho23),Intervalos.5,Intervalos.05,Intervalos.01)
+#Intervalos<-cbind(c(alpha11,alpha12,beta1,alpha21,alpha22,beta2,alpha31,alpha32,beta3,rho12,rho13,rho23),Intervalos.5,Intervalos.05,Intervalos.01)
